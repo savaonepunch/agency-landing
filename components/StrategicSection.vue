@@ -3,21 +3,21 @@
         <div class="container">
             <div class="content">
                 <h2>Strategic design over <br> the years</h2>
-                <div class="cards">
+                <div ref="cards" class="cards">
                     <div class="card">
-                        <span class="value">400</span>
-                        <span class="info">Talented people ready to being your vision</span>
+                        <span class="value">{{ counters.people.count }}</span>
+                        <span class="info">Talented people ready to realize your vision</span>
                     </div>
                     <div class="card">
-                        <span class="value">15</span>
+                        <span class="value">{{ counters.years.count }}</span>
                         <span class="info">Years of experience working with tech</span>
                     </div>
                     <div class="card">
-                        <span class="value">40</span>
+                        <span class="value">{{ counters.offices.count }}</span>
                         <span class="info">Offices in the United States</span>
                     </div>
                     <div class="card">
-                        <span class="value">3K+</span>
+                        <span class="value">{{ counters.pixel.count }}k+</span>
                         <span class="info">Pixel perfect projects designed</span>
                     </div>
                 </div>
@@ -29,7 +29,49 @@
 </template>
 
 <script setup>
+const counters = ref({
+    people: {
+        count: 1,
+        maxCount: 400
+    },
+    years: {
+        count: 1,
+        maxCount: 15
+    },
+    offices: {
+        count: 1,
+        maxCount: 40
+    },
+    pixel: {
+        count: 1,
+        maxCount: 3
+    },
+})
 
+const cards = ref(null);
+
+const countUp = (counters, timeToExecute) => {
+    for (const counter in counters) {
+        const intervalId = setInterval(() => {
+            counters[counter].count++;
+            if (counters[counter].count == counters[counter].maxCount) clearInterval(intervalId);
+        }, timeToExecute / counters[counter].maxCount);
+    }
+}
+
+onMounted(() => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.intersectionRatio > 0) {
+                setTimeout(() => {
+                    countUp(counters.value, 1700);
+                }, 100);
+                observer.disconnect();
+            }
+        })
+    })
+    observer.observe(cards.value);
+})
 </script>
 
 <style lang="scss" scoped>

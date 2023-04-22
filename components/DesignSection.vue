@@ -10,7 +10,7 @@
                         <img src="@/assets/images/peoplea.png" alt="">
                     </div>
                     <p class="feedback-info">10,000+</p>
-                    <p class="feedback">Positive feedback</p>
+                    <p class="feedback">Positive reviews</p>
                 </div>
                 <div class="illustration">
                     <img src="@/assets/images/design3.png" alt="">
